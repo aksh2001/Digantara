@@ -36,5 +36,10 @@ def ecef2lla(i, pos_x, pos_y, pos_z):
 ### Step 3: Results:
 Ask the user for the coordinates and compare with the processed data of each satellite and count the number of satellite appearing within the coordiantes.
 This program is scaled to ingest about 30000 satellites [sample file -30000sats.txt]
-The program takes 32.6 s to calculate the results.
+The optimized version uses Dask to parallelize the processing of satellite data. Dask helps in parallel computing by dividing the work into smaller tasks and distributing them across multiple CPU cores or even across a cluster of machines. This can significantly speed up the processing time for large datasets.
+```
+    client = Client(n_workers=16, threads_per_worker=1, memory_limit='0.5GB')  # This will start a local Dask scheduler and worker
+    print(client)
+```
+<Client: 'tcp://127.0.0.1:57089' processes=16 threads=16, memory=7.45 GiB> - The Client created for this task. We use 16 cores and 16 threads, and give each process about 0.5 GB of memeory limit. The program takes 32.6 s to calculate the results which an huge improvement compared to non optimized version which can takes several minutes or hours to compute.
 - Created by Abhinav Choudhary, as part of hiring assignment of Digantara
